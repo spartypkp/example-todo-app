@@ -177,7 +177,7 @@ Users can:
   - Statistics bar horizontal
   - Comfortable spacing
 
-## Data Models
+## 5. Data Models
 
 ```typescript
 interface User {
@@ -204,23 +204,23 @@ interface Session {
 }
 ```
 
-## API Endpoints
+## 6. API Endpoints
 
 All API routes under `/api/`:
 
-### Authentication
+### 6.1 Authentication
 - `POST /api/auth/register` - Create new user account
 - `POST /api/auth/login` - Authenticate user
 - `POST /api/auth/logout` - Clear user session
 
-### Tasks (Protected - Require Authentication)
+### 6.2 Tasks (Protected - Require Authentication)
 - `GET /api/tasks` - List all tasks for current user
 - `POST /api/tasks` - Create new task
 - `GET /api/tasks/[id]` - Get single task
 - `PUT /api/tasks/[id]` - Update task (title or completion)
 - `DELETE /api/tasks/[id]` - Delete task
 
-## File Structure
+## 7. File Structure
 ```
 /src
   /app
@@ -249,9 +249,9 @@ All API routes under `/api/`:
     validation.ts          # Input validation functions
 ```
 
-## Implementation Notes
+## 8. Implementation Notes
 
-### Database Initialization
+### 8.1 Database Initialization
 The SQLite database should auto-create tables on first run:
 ```sql
 CREATE TABLE IF NOT EXISTS users (
@@ -280,21 +280,21 @@ CREATE TABLE IF NOT EXISTS sessions (
 );
 ```
 
-### Middleware Configuration
+### 8.2 Middleware Configuration
 Protect routes using Next.js middleware:
 - Check for session cookie on protected routes
 - Redirect to `/login` if not authenticated
 - Redirect to `/dashboard` if authenticated user visits login/register
 
-### Type Safety
+### 8.3 Type Safety
 - Define TypeScript interfaces for all data models
 - Export types from `db.ts` for reuse across components
 - Use proper return types for all functions
 - Avoid using `any` type
 
-## User Flow
+## 9. User Flow
 
-### Primary Flow: Complete Task Lifecycle
+### 9.1 Primary Flow: Complete Task Lifecycle
 1. User lands on homepage (`/`)
 2. Clicks "Get Started" → redirected to login
 3. New user clicks "Register" link
@@ -307,21 +307,21 @@ Protect routes using Next.js middleware:
 10. User clicks "✕" → task deleted
 11. User clicks "Logout" → session cleared, redirected to homepage
 
-## Deployment & Configuration
+## 10. Deployment & Configuration
 
-### Environment Variables
+### 10.1 Environment Variables
 **None required!** This application is completely self-contained:
 - No API keys needed
 - No external service configuration
 - No database connection strings
 - NODE_ENV is automatically set by Next.js
 
-### Database
+### 10.2 Database
 - SQLite database auto-creates as `todos.db` in the project root
 - No setup or migration commands needed
 - Database persists between server restarts
 
-### Running the Application
+### 10.3 Running the Application
 ```bash
 # Development
 npm install
@@ -332,7 +332,7 @@ npm run build
 npm start
 ```
 
-## Success Criteria
+## 11. Success Criteria
 A complete implementation should:
 - ✅ Allow user registration and login
 - ✅ Persist sessions across page refreshes
@@ -346,5 +346,5 @@ A complete implementation should:
 - ✅ Implement all UI components as specified
 - ✅ Require zero configuration to run
 
-## Summary
+## 12. Summary
 This is a minimal but complete TODO application focusing on core functionality. It's designed to be simple to understand, quick to deploy, and easy to maintain while still following proper software engineering practices like validation, error handling, and database transactions. The zero-configuration approach ensures it can be run anywhere with minimal setup.
