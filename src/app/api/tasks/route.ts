@@ -29,17 +29,21 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
 	try {
 		const user = await requireAuth();
-		const { title } = await request.json();
+		const { title, priority } = await request.json();
 
 		// Validation
 		if (!validateTaskTitle(title)) {
 			return NextResponse.json(
-				{ error: { code: 'INVALID_TITLE', message: 'Title is required and must be 100 characters or less' } },
+				{ error: { code: 'INVALID_TITLE', message: 'Title is required and must be 50 characters or less' } },
 				{ status: 400 }
 			);
 		}
 
+		// Create task with optional priority (low/medium/high)
+		const taskPriority = priority || 'medium';
 		const task = createTask(user.id, title);
+		// Add priority to the task object
+		(task as any).priority = taskPriority;
 
 		console.log('Task created for user:', user.id);
 

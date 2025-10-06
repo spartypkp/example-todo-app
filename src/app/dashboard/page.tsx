@@ -47,11 +47,11 @@ export default function DashboardPage() {
 		}
 	};
 
-	const handleAddTask = async (title: string) => {
+	const handleAddTask = async (title: string, priority?: string) => {
 		const response = await fetch('/api/tasks', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ title }),
+			body: JSON.stringify({ title, priority: priority || 'medium' }),
 		});
 
 		if (!response.ok) {
@@ -108,12 +108,6 @@ export default function DashboardPage() {
 		}
 	};
 
-	// Calculate statistics
-	const totalTasks = tasks.length;
-	const completedTasks = tasks.filter(t => t.completed).length;
-	const completionPercentage = totalTasks > 0
-		? Math.round((completedTasks / totalTasks) * 100)
-		: 0;
 
 	if (loading) {
 		return (
@@ -133,21 +127,6 @@ export default function DashboardPage() {
 			<main className="max-w-4xl mx-auto px-4 py-8">
 				<TaskInput onAddTask={handleAddTask} />
 
-				{/* Statistics Bar */}
-				<div className="bg-white rounded-lg p-4 mb-6 flex justify-around">
-					<div className="text-center">
-						<p className="text-2xl font-bold">{totalTasks}</p>
-						<p className="text-gray-600 text-sm">Total Tasks</p>
-					</div>
-					<div className="text-center">
-						<p className="text-2xl font-bold">{completedTasks}</p>
-						<p className="text-gray-600 text-sm">Completed</p>
-					</div>
-					<div className="text-center">
-						<p className="text-2xl font-bold">{completionPercentage}%</p>
-						<p className="text-gray-600 text-sm">Progress</p>
-					</div>
-				</div>
 
 				<TaskList
 					tasks={tasks}

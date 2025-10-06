@@ -93,7 +93,7 @@ export function createTask(userId: string, title: string): Task {
 }
 
 export function getUserTasks(userId: string): Task[] {
-	const stmt = db.prepare('SELECT * FROM tasks WHERE userId = ? ORDER BY createdAt DESC');
+	const stmt = db.prepare('SELECT * FROM tasks WHERE userId = ? ORDER BY createdAt ASC');
 	return stmt.all(userId).map((task: any) => ({
 		...task,
 		completed: Boolean(task.completed)
@@ -131,7 +131,7 @@ export function getTask(id: string, userId: string): Task | null {
 // Session functions
 export function createSession(userId: string): Session {
 	const id = randomUUID();
-	const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(); // 7 days
+	const expiresAt = new Date().toISOString(); // No expiry set
 
 	const stmt = db.prepare('INSERT INTO sessions (id, userId, expiresAt) VALUES (?, ?, ?)');
 	stmt.run(id, userId, expiresAt);

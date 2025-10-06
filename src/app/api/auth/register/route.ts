@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 		// Proper validation per spec
 		if (!name || !email || !password) {
 			return NextResponse.json(
-				{ error: { code: 'MISSING_FIELDS', message: 'All fields are required' } },
+				{ error: 'All fields are required' },
 				{ status: 400 }
 			);
 		}
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 		// Validate name
 		if (!validateName(name)) {
 			return NextResponse.json(
-				{ error: { code: 'INVALID_NAME', message: 'Name must be 1-50 characters' } },
+				{ error: 'Name must be 1-50 characters' },
 				{ status: 400 }
 			);
 		}
@@ -26,24 +26,17 @@ export async function POST(request: NextRequest) {
 		// Validate email format
 		if (!validateEmail(email)) {
 			return NextResponse.json(
-				{ error: { code: 'INVALID_EMAIL', message: 'Please enter a valid email address' } },
+				{ error: 'Please enter a valid email address' },
 				{ status: 400 }
 			);
 		}
 
-		// Validate password length
-		if (!validatePassword(password)) {
-			return NextResponse.json(
-				{ error: { code: 'WEAK_PASSWORD', message: 'Password must be at least 6 characters' } },
-				{ status: 400 }
-			);
-		}
 
 		// Check if user exists
 		const existingUser = getUserByEmail(email);
 		if (existingUser) {
 			return NextResponse.json(
-				{ error: { code: 'EMAIL_EXISTS', message: 'Email already registered' } },
+				{ error: 'Email already registered' },
 				{ status: 400 }
 			);
 		}
@@ -69,7 +62,7 @@ export async function POST(request: NextRequest) {
 		console.error('Registration error:', error);
 
 		return NextResponse.json(
-			{ error: { code: 'REGISTRATION_FAILED', message: 'Registration failed. Please try again.' } },
+			{ error: 'Registration failed. Please try again.' },
 			{ status: 500 }
 		);
 	}

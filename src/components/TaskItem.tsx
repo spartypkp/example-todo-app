@@ -9,6 +9,14 @@ interface TaskItemProps {
 }
 
 export default function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
+	// Get priority from task (if it exists)
+	const priority = (task as any).priority || 'medium';
+	const priorityColors = {
+		low: 'text-gray-500',
+		medium: 'text-blue-500',
+		high: 'text-red-500'
+	};
+
 	return (
 		<div className="bg-white rounded-lg p-4 flex items-center gap-3">
 			<Checkbox
@@ -20,6 +28,10 @@ export default function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
 					}`}
 			>
 				{task.title}
+			</span>
+			{/* Priority indicator */}
+			<span className={`text-xs font-medium ${priorityColors[priority as keyof typeof priorityColors]}`}>
+				{priority.toUpperCase()}
 			</span>
 			<Button
 				onClick={() => onDelete(task.id)}

@@ -10,14 +10,14 @@ export async function POST(request: NextRequest) {
 		// Validation
 		if (!email || !password) {
 			return NextResponse.json(
-				{ error: { code: 'MISSING_CREDENTIALS', message: 'Email and password required' } },
+				{ error: 'Email and password required' },
 				{ status: 400 }
 			);
 		}
 
 		if (!validateEmail(email)) {
 			return NextResponse.json(
-				{ error: { code: 'INVALID_EMAIL', message: 'Invalid email format' } },
+				{ error: 'Invalid email format' },
 				{ status: 400 }
 			);
 		}
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 		const user = getUserByEmail(email);
 		if (!user) {
 			return NextResponse.json(
-				{ error: { code: 'INVALID_CREDENTIALS', message: 'Invalid email or password' } },
+				{ error: 'Invalid email or password' },
 				{ status: 401 }
 			);
 		}
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 		const isValid = await verifyPassword(password, user.passwordHash);
 		if (!isValid) {
 			return NextResponse.json(
-				{ error: { code: 'INVALID_CREDENTIALS', message: 'Invalid email or password' } },
+				{ error: 'Invalid email or password' },
 				{ status: 401 }
 			);
 		}
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
 		console.error('Login error:', error);
 
 		return NextResponse.json(
-			{ error: { code: 'LOGIN_FAILED', message: 'Login failed. Please try again.' } },
+			{ error: 'Login failed. Please try again.' },
 			{ status: 500 }
 		);
 	}
