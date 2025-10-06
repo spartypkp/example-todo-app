@@ -49,7 +49,7 @@ export default function TaskInput({ onAddTask }: TaskInputProps) {
 					disabled={loading}
 				/>
 				<Button type="submit" disabled={loading}>
-					{loading ? 'Adding...' : 'Add Task'}
+					{loading ? 'Adding...' : 'Create'}
 				</Button>
 			</div>
 			{error && (

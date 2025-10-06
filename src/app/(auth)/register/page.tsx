@@ -72,7 +72,7 @@ export default function RegisterPage() {
 				<form className="mt-8 space-y-6" onSubmit={handleSubmit}>
 					<div className="space-y-4">
 						<div>
-							<Label htmlFor="name">Name</Label>
+							<Label htmlFor="name">Full Name</Label>
 							<Input
 								id="name"
 								type="text"
