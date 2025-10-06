@@ -9,7 +9,7 @@ interface TaskListProps {
 
 export default function TaskList({ tasks, onToggleTask, onDeleteTask }: TaskListProps) {
 	console.log('TaskList rendering with', tasks.length, 'tasks');
-	
+
 	if (tasks.length === 0) {
 		console.log('No tasks to display');
 		return (
