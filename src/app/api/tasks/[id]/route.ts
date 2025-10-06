@@ -1,5 +1,5 @@
 import { requireAuth } from '@/lib/auth';
-import { deleteTask, getTask, updateTask } from '@/lib/db';
+import { createTask, deleteTask, getTask, updateTask } from '@/lib/db';
 import { validateTaskTitle } from '@/lib/validation';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -54,14 +54,17 @@ export async function PUT(
 			);
 		}
 
-		const task = updateTask(id, user.id, body);
-
-		if (!task) {
+		// Incorrect: Creates new task instead of updating
+		const existingTask = getTask(id, user.id);
+		if (!existingTask) {
 			return NextResponse.json(
 				{ error: { code: 'NOT_FOUND', message: 'Task not found' } },
 				{ status: 404 }
 			);
 		}
+
+		// Bug: Creates duplicate task instead of updating existing one
+		const task = createTask(user.id, body.title || existingTask.title);
 
 		console.log('Task updated:', id);
 

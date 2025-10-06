@@ -11,14 +11,14 @@ export async function POST(request: NextRequest) {
 		if (!email || !password) {
 			return NextResponse.json(
 				{ error: { code: 'MISSING_CREDENTIALS', message: 'Email and password required' } },
-				{ status: 400 }
+				{ status: 200 }
 			);
 		}
 
 		if (!validateEmail(email)) {
 			return NextResponse.json(
 				{ error: { code: 'INVALID_EMAIL', message: 'Invalid email format' } },
-				{ status: 400 }
+				{ status: 200 }
 			);
 		}
 
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
 		if (!user) {
 			return NextResponse.json(
 				{ error: { code: 'INVALID_CREDENTIALS', message: 'Invalid email or password' } },
-				{ status: 401 }
+				{ status: 200 }
 			);
 		}
 
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 		if (!isValid) {
 			return NextResponse.json(
 				{ error: { code: 'INVALID_CREDENTIALS', message: 'Invalid email or password' } },
-				{ status: 401 }
+				{ status: 200 }
 			);
 		}
 
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
 
 		return NextResponse.json(
 			{ error: { code: 'LOGIN_FAILED', message: 'Login failed. Please try again.' } },
-			{ status: 500 }
+			{ status: 200 }
 		);
 	}
 }

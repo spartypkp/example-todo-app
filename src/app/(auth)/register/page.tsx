@@ -21,8 +21,8 @@ export default function RegisterPage() {
 		setLoading(true);
 
 		// Client-side validation
-		if (!name || name.length > 50) {
-			setError('Name must be between 1 and 50 characters');
+		if (!name) {
+			setError('Name is required');
 			setLoading(false);
 			return;
 		}

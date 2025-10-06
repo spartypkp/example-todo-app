@@ -64,19 +64,30 @@ export default function DashboardPage() {
 	};
 
 	const handleToggleTask = async (task: Task) => {
+		// Bug: Toggles ALL tasks instead of just the clicked one
 		try {
-			const response = await fetch(`/api/tasks/${task.id}`, {
-				method: 'PUT',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ completed: !task.completed }),
-			});
+			const newCompletedState = !task.completed;
+			
+			// Update all tasks to the new state
+			const updatedTasks = await Promise.all(
+				tasks.map(async (t) => {
+					const response = await fetch(`/api/tasks/${t.id}`, {
+						method: 'PUT',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ completed: newCompletedState }),
+					});
+					
+					if (response.ok) {
+						const data = await response.json();
+						return data.task;
+					}
+					return t;
+				})
+			);
 
-			if (response.ok) {
-				const data = await response.json();
-				setTasks(tasks.map(t => t.id === task.id ? data.task : t));
-			}
+			setTasks(updatedTasks);
 		} catch (err) {
-			console.error('Failed to update task');
+			console.error('Failed to update tasks');
 		}
 	};
 
