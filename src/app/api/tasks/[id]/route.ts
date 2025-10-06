@@ -14,7 +14,7 @@ export async function GET(
 
 		if (!task) {
 			return NextResponse.json(
-				{ error: { code: 'NOT_FOUND', message: 'Task not found' } },
+				{ error: 'Task not found' },
 				{ status: 404 }
 			);
 		}
@@ -23,7 +23,7 @@ export async function GET(
 	} catch (error) {
 		if (error instanceof Error && error.message === 'Unauthorized') {
 			return NextResponse.json(
-				{ error: { code: 'UNAUTHORIZED', message: 'Please login to view tasks' } },
+				{ error: 'Please login to view tasks' },
 				{ status: 401 }
 			);
 		}
@@ -31,7 +31,7 @@ export async function GET(
 		console.error('Get task error:', error);
 
 		return NextResponse.json(
-			{ error: { code: 'FETCH_FAILED', message: 'Failed to fetch task' } },
+			{ error: 'Failed to fetch task' },
 			{ status: 500 }
 		);
 	}
@@ -49,7 +49,7 @@ export async function PUT(
 		// Validate title if provided
 		if (body.title !== undefined && !validateTaskTitle(body.title)) {
 			return NextResponse.json(
-				{ error: { code: 'INVALID_TITLE', message: 'Title must be 100 characters or less' } },
+				{ error: 'Title must be 100 characters or less' },
 				{ status: 400 }
 			);
 		}
@@ -58,7 +58,7 @@ export async function PUT(
 
 		if (!task) {
 			return NextResponse.json(
-				{ error: { code: 'NOT_FOUND', message: 'Task not found' } },
+				{ error: 'Task not found' },
 				{ status: 404 }
 			);
 		}
@@ -69,7 +69,7 @@ export async function PUT(
 	} catch (error) {
 		if (error instanceof Error && error.message === 'Unauthorized') {
 			return NextResponse.json(
-				{ error: { code: 'UNAUTHORIZED', message: 'Please login to update tasks' } },
+				{ error: 'Please login to update tasks' },
 				{ status: 401 }
 			);
 		}
@@ -77,7 +77,7 @@ export async function PUT(
 		console.error('Update task error:', error);
 
 		return NextResponse.json(
-			{ error: { code: 'UPDATE_FAILED', message: 'Failed to update task' } },
+			{ error: 'Failed to update task' },
 			{ status: 500 }
 		);
 	}
@@ -95,7 +95,7 @@ export async function DELETE(
 
 		if (!deleted) {
 			return NextResponse.json(
-				{ error: { code: 'NOT_FOUND', message: 'Task not found' } },
+				{ error: 'Task not found' },
 				{ status: 404 }
 			);
 		}
@@ -106,7 +106,7 @@ export async function DELETE(
 	} catch (error) {
 		if (error instanceof Error && error.message === 'Unauthorized') {
 			return NextResponse.json(
-				{ error: { code: 'UNAUTHORIZED', message: 'Please login to delete tasks' } },
+				{ error: 'Please login to delete tasks' },
 				{ status: 401 }
 			);
 		}
@@ -114,7 +114,7 @@ export async function DELETE(
 		console.error('Delete task error:', error);
 
 		return NextResponse.json(
-			{ error: { code: 'DELETE_FAILED', message: 'Failed to delete task' } },
+			{ error: 'Failed to delete task' },
 			{ status: 500 }
 		);
 	}

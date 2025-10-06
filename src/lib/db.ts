@@ -151,33 +151,21 @@ export function deleteSession(id: string): void {
 
 // Database transactions for bulk operations
 export function clearCompletedTasks(userId: string): number {
-	const transaction = db.transaction(() => {
-		const stmt = db.prepare('DELETE FROM tasks WHERE userId = ? AND completed = 1');
-		const result = stmt.run(userId);
-		return result.changes;
-	});
-
-	return transaction() as number;
+	const stmt = db.prepare('DELETE FROM tasks WHERE userId = ? AND completed = 1');
+	const result = stmt.run(userId);
+	return result.changes;
 }
 
 export function deleteAllTasks(userId: string): number {
-	const transaction = db.transaction(() => {
-		const stmt = db.prepare('DELETE FROM tasks WHERE userId = ?');
-		const result = stmt.run(userId);
-		return result.changes;
-	});
-
-	return transaction() as number;
+	const stmt = db.prepare('DELETE FROM tasks WHERE userId = ?');
+	const result = stmt.run(userId);
+	return result.changes;
 }
 
 export function toggleAllTasks(userId: string, completed: boolean): number {
-	const transaction = db.transaction(() => {
-		const stmt = db.prepare('UPDATE tasks SET completed = ?, updatedAt = ? WHERE userId = ?');
-		const result = stmt.run(completed ? 1 : 0, new Date().toISOString(), userId);
-		return result.changes;
-	});
-
-	return transaction() as number;
+	const stmt = db.prepare('UPDATE tasks SET completed = ?, updatedAt = ? WHERE userId = ?');
+	const result = stmt.run(completed ? 1 : 0, new Date().toISOString(), userId);
+	return result.changes;
 }
 
 export default db;

@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import { cookies } from 'next/headers';
 import { createSession, deleteSession, getSession, getUserById } from './db';
 
-const SESSION_COOKIE = 'todo-session';
+const SESSION_COOKIE = 'session';
 
 // Password hashing
 export async function hashPassword(password: string): Promise<string> {

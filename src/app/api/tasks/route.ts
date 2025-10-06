@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 	} catch (error) {
 		if (error instanceof Error && error.message === 'Unauthorized') {
 			return NextResponse.json(
-				{ error: { code: 'UNAUTHORIZED', message: 'Please login to view tasks' } },
+				{ error: 'Please login to view tasks' },
 				{ status: 401 }
 			);
 		}
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 		console.error('Fetch tasks error:', error);
 
 		return NextResponse.json(
-			{ error: { code: 'FETCH_FAILED', message: 'Failed to fetch tasks' } },
+			{ error: 'Failed to fetch tasks' },
 			{ status: 500 }
 		);
 	}
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 		// Validation
 		if (!validateTaskTitle(title)) {
 			return NextResponse.json(
-				{ error: { code: 'INVALID_TITLE', message: 'Title is required and must be 100 characters or less' } },
+				{ error: 'Title is required and must be 100 characters or less' },
 				{ status: 400 }
 			);
 		}
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 	} catch (error) {
 		if (error instanceof Error && error.message === 'Unauthorized') {
 			return NextResponse.json(
-				{ error: { code: 'UNAUTHORIZED', message: 'Please login to create tasks' } },
+				{ error: 'Please login to create tasks' },
 				{ status: 401 }
 			);
 		}
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
 		console.error('Create task error:', error);
 
 		return NextResponse.json(
-			{ error: { code: 'CREATE_FAILED', message: 'Failed to create task' } },
+			{ error: 'Failed to create task' },
 			{ status: 500 }
 		);
 	}
