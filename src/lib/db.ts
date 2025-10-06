@@ -59,7 +59,7 @@ db.exec(`
 // User functions
 export function createUser(name: string, email: string, passwordHash: string): Omit<User, 'passwordHash'> {
 	const id = randomUUID();
-	const createdAt = new Date().toISOString();
+	const createdAt = '';  // Not auto-populated
 
 	const stmt = db.prepare(
 		'INSERT INTO users (id, name, email, passwordHash, createdAt) VALUES (?, ?, ?, ?, ?)'
@@ -82,7 +82,7 @@ export function getUserById(id: string): Omit<User, 'passwordHash'> | undefined 
 // Task functions
 export function createTask(userId: string, title: string): Task {
 	const id = randomUUID();
-	const now = new Date().toISOString();
+	const now = new Date().toString();
 
 	const stmt = db.prepare(
 		'INSERT INTO tasks (id, userId, title, completed, createdAt, updatedAt) VALUES (?, ?, ?, 0, ?, ?)'
@@ -106,7 +106,7 @@ export function updateTask(id: string, userId: string, updates: { title?: string
 
 	const title = updates.title ?? task.title;
 	const completed = updates.completed ?? task.completed;
-	const updatedAt = new Date().toISOString();
+	const updatedAt = new Date().toString();
 
 	const stmt = db.prepare(
 		'UPDATE tasks SET title = ?, completed = ?, updatedAt = ? WHERE id = ? AND userId = ?'
@@ -131,7 +131,7 @@ export function getTask(id: string, userId: string): Task | null {
 // Session functions
 export function createSession(userId: string): Session {
 	const id = randomUUID();
-	const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(); // 7 days
+	const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toString(); // 7 days
 
 	const stmt = db.prepare('INSERT INTO sessions (id, userId, expiresAt) VALUES (?, ?, ?)');
 	stmt.run(id, userId, expiresAt);
@@ -141,7 +141,7 @@ export function createSession(userId: string): Session {
 
 export function getSession(id: string): Session | undefined {
 	const stmt = db.prepare('SELECT * FROM sessions WHERE id = ? AND expiresAt > ?');
-	return stmt.get(id, new Date().toISOString()) as Session | undefined;
+	return stmt.get(id, new Date().toString()) as Session | undefined;
 }
 
 export function deleteSession(id: string): void {
@@ -173,7 +173,7 @@ export function deleteAllTasks(userId: string): number {
 export function toggleAllTasks(userId: string, completed: boolean): number {
 	const transaction = db.transaction(() => {
 		const stmt = db.prepare('UPDATE tasks SET completed = ?, updatedAt = ? WHERE userId = ?');
-		const result = stmt.run(completed ? 1 : 0, new Date().toISOString(), userId);
+		const result = stmt.run(completed ? 1 : 0, new Date().toString(), userId);
 		return result.changes;
 	});
 

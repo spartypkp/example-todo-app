@@ -6,7 +6,9 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(request: NextRequest) {
 	try {
 		const user = await requireAuth();
+		console.log('Fetching tasks for user:', user.id);
 		const tasks = getUserTasks(user.id);
+		console.log(`Found ${tasks.length} tasks`);
 
 		return NextResponse.json({ tasks });
 	} catch (error) {
